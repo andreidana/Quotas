@@ -7,12 +7,9 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace QuotaManager
@@ -22,6 +19,7 @@ namespace QuotaManager
     /// </summary>
     sealed partial class App : Application
     {
+        private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,6 +28,11 @@ namespace QuotaManager
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            if (_localSettings.Values["startDate"] == null)
+            {
+                _localSettings.Values["startDate"] = DateTime.Now.ToString("yyyy-MM-dd");
+            }
         }
 
         /// <summary>

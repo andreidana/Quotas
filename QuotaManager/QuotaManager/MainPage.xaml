@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:QuotaManager.ViewModels"
-    xmlns:views="using:QuotaManager.Views"
+    xmlns:common="using:QuotaManager.Common"
     mc:Ignorable="d">
     
     <Page.DataContext>
@@ -13,14 +13,23 @@
     </Page.DataContext>
     
     <Page.Resources>
-        <DataTemplate x:Key="QuotasCreation" x:DataType="viewModels:QuotasCreationViewModel">
-            <views:QuotasCreation/>
-        </DataTemplate>
+        <common:BooleanToVisibilityConverter x:Key="Converter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Create Quota" Command="{Binding ShowQuotasCreationCommand}"></Button>
-        
-        <ContentControl Content="{Binding CurrentView}"/>
+        <StackPanel Orientation="Vertical">
+            <Button Command="{Binding ShowQuotasCreationCommand}">Create Quotas</Button>
+
+            <StackPanel Visibility="{Binding QuotaCreationFormVisibility, Converter={StaticResource Converter}, UpdateSourceTrigger=PropertyChanged}" Orientation="Vertical">
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock Width="200">Quota Description</TextBlock>
+                    <TextBox Width="400"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="200">Quota Value</TextBlock>
+                    <TextBox Width="400"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

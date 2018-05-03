@@ -13,12 +13,5 @@ namespace QuotaManagerTest.ViewModels
         {
             _mainAppViewModel = new MainAppViewModel();
         }
-
-        [TestMethod]
-        public void ShouldSendUserToQuotasCreationViewModel_WhenAddQuotaButtonIsPressed()
-        {
-            _mainAppViewModel.ShowQuotasCreationCommand.Execute(new object());
-            Assert.IsInstanceOfType(_mainAppViewModel.CurrentView, typeof(QuotasCreationViewModel));
-        }
     }
 }

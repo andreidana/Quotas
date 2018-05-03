@@ -5,31 +5,37 @@ namespace QuotaManager.ViewModels
 {
     public class MainAppViewModel: NotifyPropertyChanged
     {
-        private ICommand _showQuotasCreationCommand;
-        private IViewModelBase _currentView;
+        private bool _quotaCreationFormVisibility;
+        private ICommand _showQuotasCreationFormCommand;
 
         public ICommand ShowQuotasCreationCommand
         {
             get
             {
-                return _showQuotasCreationCommand ?? (_showQuotasCreationCommand = new CommandBase(i => ShowQuotasCreationViewModel(), null));
+                return _showQuotasCreationFormCommand ?? (_showQuotasCreationFormCommand = new CommandBase(i => ShowQuotasCreationForm(), null));
             }
         }
 
-        public IViewModelBase CurrentView
+        public bool QuotaCreationFormVisibility
         {
-            get => _currentView;
+            get => _quotaCreationFormVisibility;
             set
             {
-                if (_currentView == value) return;
-                _currentView = value;
-                OnPropertyChanged(nameof(CurrentView));
+                if (_quotaCreationFormVisibility == value) return;
+                _quotaCreationFormVisibility = value;
+                OnPropertyChanged(nameof(QuotaCreationFormVisibility));
             }
         }
 
-        private void ShowQuotasCreationViewModel()
+        public MainAppViewModel()
         {
-            CurrentView = new QuotasCreationViewModel();
+            _quotaCreationFormVisibility = false;
+            var datesList = new DatesList.DatesList();
+        }
+
+        private void ShowQuotasCreationForm()
+        {
+            QuotaCreationFormVisibility = !_quotaCreationFormVisibility;
         }
     }
 }
