@@ -1,28 +1,47 @@
-﻿using System;
+﻿using QuotaManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Windows.Storage;
-using QuotaManager.Models;
 
 namespace QuotaManager.DatesList
 {
     public class WeeksList
     {
-        private DateTime _startDate;
-        private DateTime _currentDate;
         private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
         public List<Week> Weeks { get; }
 
         public WeeksList()
         {
-            _startDate = Convert.ToDateTime(_localSettings.Values["startDate"]);
-            _currentDate = DateTime.Now;
             Weeks = new List<Week>();
-            var firstWeek = new Week {weekStart = GetFirstDayOfWeek(_startDate), weekStartString = GetFirstDayOfWeek(_startDate).ToString("yyyy-MM-dd") };
-            firstWeek.weekEnd = firstWeek.weekStart.AddDays(7);
-            firstWeek.weekEndString = firstWeek.weekEnd.ToString("yyyy-MM-dd");
-            Weeks.Add(firstWeek);
+            SetFirstWeek();
+            AddAllWeeksToList();
+        }
+
+        private void AddAllWeeksToList()
+        {
+            var lastDayOfCurrentWeek = Weeks[0].weekEnd;
+            while (DateTime.Now > lastDayOfCurrentWeek)
+            {
+                var week = ConstructWeek(lastDayOfCurrentWeek.AddDays(1));
+                Weeks.Add(week);
+                lastDayOfCurrentWeek = week.weekEnd;
+            }
+        }
+
+        private void SetFirstWeek()
+        {
+            var startDate = Convert.ToDateTime(_localSettings.Values["startDate"]);
+            var week = ConstructWeek(startDate);
+            Weeks.Add(week);
+        }
+
+        private Week ConstructWeek(DateTime startDate)
+        {
+            var weekStart = GetFirstDayOfWeek(startDate);
+            var weekEnd = weekStart.AddDays(7);
+            return new Week(weekStart, weekEnd);
         }
 
         private DateTime GetFirstDayOfWeek(DateTime dayInWeek)
