@@ -4,20 +4,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:QuotaManager.ViewModels"
     xmlns:common="using:QuotaManager.Common"
+    xmlns:models="using:QuotaManager.Models"
     mc:Ignorable="d">
-    
-    <Page.DataContext>
-        <viewModels:MainAppViewModel/>
-    </Page.DataContext>
-    
+
     <Page.Resources>
         <common:BooleanToVisibilityConverter x:Key="Converter" />
+
+        <DataTemplate x:Key="WeekListItemTemplate" x:DataType="models:Week">
+            <RelativePanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,8,0,0">
+                    <TextBlock Text="{x:Bind weekStartString}"/>
+                    <TextBlock Text=" - "></TextBlock>
+                    <TextBlock Text="{x:Bind weekEndString}"/>
+                </StackPanel>
+            </RelativePanel>
+        </DataTemplate>
     </Page.Resources>
 
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Vertical">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ListView ItemsSource="{Binding WeeksList, Mode=OneWay}"
+                  ItemTemplate="{StaticResource WeekListItemTemplate}"
+                  IsItemClickEnabled="False"
+                  IsSwipeEnabled="True"
+                  CanDragItems="False"
+                  Grid.Column="0"
+                  SelectionMode="Single" />
+        <StackPanel Grid.Column="1" Orientation="Vertical">
             <Button Command="{Binding ShowQuotasCreationCommand}">Create Quotas</Button>
 
             <StackPanel Visibility="{Binding QuotaCreationFormVisibility, Converter={StaticResource Converter}, UpdateSourceTrigger=PropertyChanged}" Orientation="Vertical">

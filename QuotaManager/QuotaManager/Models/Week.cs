@@ -6,5 +6,7 @@ namespace QuotaManager.Models
     {
         public DateTime weekStart { get; set; }
         public DateTime weekEnd { get; set; }
+        public string weekStartString { get; set; }
+        public string weekEndString { get; set; }
     }
 }

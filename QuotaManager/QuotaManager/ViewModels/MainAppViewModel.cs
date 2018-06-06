@@ -1,11 +1,14 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using QuotaManager.Common;
+using QuotaManager.Models;
 
 namespace QuotaManager.ViewModels
 {
     public class MainAppViewModel: NotifyPropertyChanged
     {
         private bool _quotaCreationFormVisibility;
+        private List<Week> _weeksList;
         private ICommand _showQuotasCreationFormCommand;
 
         public ICommand ShowQuotasCreationCommand
@@ -27,10 +30,22 @@ namespace QuotaManager.ViewModels
             }
         }
 
+        public List<Week> WeeksList
+        {
+            get => _weeksList;
+            set
+            {
+                if (_weeksList == value) return;
+                _weeksList = value;
+                OnPropertyChanged(nameof(WeeksList));
+            }
+        }
+
         public MainAppViewModel()
         {
             _quotaCreationFormVisibility = false;
-            var datesList = new DatesList.DatesList();
+            var datesList = new DatesList.WeeksList();
+            _weeksList = datesList.Weeks;
         }
 
         private void ShowQuotasCreationForm()

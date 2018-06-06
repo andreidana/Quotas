@@ -6,20 +6,23 @@ using QuotaManager.Models;
 
 namespace QuotaManager.DatesList
 {
-    public class DatesList
+    public class WeeksList
     {
         private DateTime _startDate;
         private DateTime _currentDate;
-        private List<Week> _weeks;
         private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
-        
-        public DatesList()
+
+        public List<Week> Weeks { get; }
+
+        public WeeksList()
         {
             _startDate = Convert.ToDateTime(_localSettings.Values["startDate"]);
             _currentDate = DateTime.Now;
-            _weeks = new List<Week>();
-            var firstWeek = new Week {weekStart = GetFirstDayOfWeek(_startDate)};
+            Weeks = new List<Week>();
+            var firstWeek = new Week {weekStart = GetFirstDayOfWeek(_startDate), weekStartString = GetFirstDayOfWeek(_startDate).ToString("yyyy-MM-dd") };
             firstWeek.weekEnd = firstWeek.weekStart.AddDays(7);
+            firstWeek.weekEndString = firstWeek.weekEnd.ToString("yyyy-MM-dd");
+            Weeks.Add(firstWeek);
         }
 
         private DateTime GetFirstDayOfWeek(DateTime dayInWeek)

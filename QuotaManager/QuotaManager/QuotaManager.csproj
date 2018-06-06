@@ -98,7 +98,7 @@
     <Compile Include="Common\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\CommandBase.cs" />
     <Compile Include="Common\NotifyPropertyChanged.cs" />
-    <Compile Include="DatesList\DatesList.cs" />
+    <Compile Include="DatesList\WeeksList.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
