@@ -13,7 +13,9 @@
 
         <DataTemplate x:Key="WeekListItemTemplate" x:DataType="models:Week">
             <RelativePanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,8,0,0">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center" 
+                            Margin="8,8,0,0">
                     <TextBlock Text="{x:Bind weekStartString}"/>
                     <TextBlock Text=" - "></TextBlock>
                     <TextBlock Text="{x:Bind weekEndString}"/>
@@ -31,11 +33,13 @@
         </Grid.ColumnDefinitions>
         <ListView ItemsSource="{Binding WeeksList, Mode=OneWay}"
                   ItemTemplate="{StaticResource WeekListItemTemplate}"
-                  IsItemClickEnabled="False"
+                  IsItemClickEnabled="True"
+                  ItemClick="ListViewBase_OnItemClick"
                   IsSwipeEnabled="True"
                   CanDragItems="False"
                   Grid.Column="0"
-                  SelectionMode="Single" />
+                  SelectionMode="Single">
+        </ListView>
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Button Command="{Binding ShowQuotasCreationCommand}">Create Quotas</Button>
 

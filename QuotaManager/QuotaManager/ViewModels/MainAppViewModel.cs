@@ -10,12 +10,21 @@ namespace QuotaManager.ViewModels
         private bool _quotaCreationFormVisibility;
         private List<Week> _weeksList;
         private ICommand _showQuotasCreationFormCommand;
+        private ICommand _showQuotasPerWeek;
 
         public ICommand ShowQuotasCreationCommand
         {
             get
             {
                 return _showQuotasCreationFormCommand ?? (_showQuotasCreationFormCommand = new CommandBase(i => ShowQuotasCreationForm(), null));
+            }
+        }
+
+        public ICommand ShowQuotasPerWeek
+        {
+            get
+            {
+                return _showQuotasPerWeek ?? (_showQuotasPerWeek = new CommandBase(ShowQuotasPerWeekForm, null));
             }
         }
 
@@ -51,6 +60,11 @@ namespace QuotaManager.ViewModels
         private void ShowQuotasCreationForm()
         {
             QuotaCreationFormVisibility = !_quotaCreationFormVisibility;
+        }
+
+        private void ShowQuotasPerWeekForm(object clickedWeek)
+        {
+            var i = 1;
         }
     }
 }
